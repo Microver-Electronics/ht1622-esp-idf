@@ -6,6 +6,7 @@ This library is ported to ESP-IDF framework by using https://github.com/MartyMac
 This HT1622 LCD driver library should work with your ESP-IDF projects as a component.
 
 #HOW TO USE:
+
 1- Create your ESP-IDF project.
 
 2- Create a component for your project, named display. (I guess the source and library file names should match with the component name, be careful about that)
