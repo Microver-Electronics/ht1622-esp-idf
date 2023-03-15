@@ -19,6 +19,10 @@ This HT1622 LCD driver library should work with your ESP-IDF projects as a compo
 5. Change the library according to your needs and you are ready to go.
 ## 
 
+## IMPORTANT:
+If you want to understand the code much better, you can check the driver datasheet and our custom lcd layout.
+##
+
 
 If you have any issues, let me know.
 
