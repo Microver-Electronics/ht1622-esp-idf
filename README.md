@@ -14,8 +14,9 @@ This HT1622 LCD driver library should work with your ESP-IDF projects as a compo
 ## HOW TO USE:
 1. Create your ESP-IDF project.
 2. Create a component for your project, named display. (I guess the source and library file names should match with the component name, be careful about that)
-3. Remake the CMakeLists.txt file. It need to be linked to other components or to the main file location in order to work with them.
-4. Change the library according to your needs and ready to go.
+3. Copy and paste the contents of display folder. 
+4. Check the CMakeLists.txt file. It needs to be linked to other components or to the main file location in order to work with them.
+5. Change the library according to your needs and you are ready to go.
 ## 
 
 
