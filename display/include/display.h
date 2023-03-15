@@ -46,25 +46,6 @@
 #define DIGIT_9 0b01011111
 
 
-//#define DIGIT_1_SEGMENT 1
-//#define DIGIT_2_SEGMENT 2
-//#define DIGIT_3_SEGMENT 6
-//#define DIGIT_4_SEGMENT 5
-//#define DIGIT_5_SEGMENT 4
-//#define DIGIT_6_SEGMENT 9
-//#define DIGIT_7_SEGMENT 8
-//#define DIGIT_8_SEGMENT 7
-//#define DIGIT_9_SEGMENT 12
-//#define DIGIT_10_SEGMENT 11
-//#define DIGIT_11_SEGMENT 10
-//#define DIGIT_12_SEGMENT 15
-//#define DIGIT_13_SEGMENT 14
-//#define DIGIT_14_SEGMENT 13
-//#define DIGIT_15_SEGMENT 18
-//#define DIGIT_16_SEGMENT 17
-//#define DIGIT_17_SEGMENT 16
-
-
 #define DIGIT_1_ADDRESS 2
 #define DIGIT_2_ADDRESS 4
 #define DIGIT_3_ADDRESS 12
