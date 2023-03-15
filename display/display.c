@@ -5,7 +5,8 @@ TaskHandle_t displayTaskHandle = NULL;
 HT1622_DisplayConfig HT1622_Config_s = NULL;
 HT1622_DisplayValues HT1622_Values_s = NULL;
 
-void HT162x_Z_Set(uint8_t addr, uint8_t com, bool state){
+// To set or clear Z coded segments on custom LCD
+void HT162x_Z_Set(uint8_t addr, uint8_t com, bool state){ 
 	uint8_t data;
 
 	// Bit-wise edit of locally allocated screen memory
@@ -21,6 +22,7 @@ void HT162x_Z_Set(uint8_t addr, uint8_t com, bool state){
 	HT162x_WriteData(addr, (uint16_t)data, 4);
 }
 
+// To convert the input data to 7 segment value for each digit.
 uint8_t convert_value_for_digits(uint32_t data){
 	switch(data){
 		case 0:
@@ -68,6 +70,7 @@ uint8_t convert_value_for_digits(uint32_t data){
 	}
 }
 
+// To clear club speed on screen.
 void HT162x_ClubSpeed_Release(){
 	// Digit IDs = 3, 4, 5
 	uint8_t digits[3] = {0x0};
@@ -81,6 +84,7 @@ void HT162x_ClubSpeed_Release(){
 	}
 }
 
+// To clear ball speed on screen.
 void HT162x_BallSpeed_Release(){
 	// Digit IDs = 6, 7, 8
 	uint8_t digits[3] = {0x0};
@@ -94,6 +98,7 @@ void HT162x_BallSpeed_Release(){
 	}
 }
 
+// To clear smash value on screen.
 void HT162x_Smash_Release(){
 	// Digit IDs = 9, 10, 11
 	uint8_t digits[3] = {0x0};
@@ -107,6 +112,7 @@ void HT162x_Smash_Release(){
 	}
 }
 
+// To clear launch angle on screen.
 void HT162x_Launch_Release(){
 	// Digit IDs = 12, 13, 14
 	uint8_t digits[3] = {0x0};
@@ -120,6 +126,7 @@ void HT162x_Launch_Release(){
 	}
 }
 
+// To clear carry value on screen.
 void HT162x_Carry_Release(){
 	// Digit IDs = 15, 16, 17
 	uint8_t digits[3] = {0x0};
@@ -238,7 +245,7 @@ void HT162x_Carry_Set(uint32_t carry_value){
 
 
 
-
+// To send bits to the driver.
 void HT162x_SendBits(uint16_t data, uint8_t bits, bool LSB_FIRST)
 {
 	// Data is shifted out bitwise, either LSB-first or MSB-first.
@@ -258,7 +265,7 @@ void HT162x_SendBits(uint16_t data, uint8_t bits, bool LSB_FIRST)
 }
 
 
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// To send the command for the driver. See datasheet...
 void HT162x_Command(uint8_t cmd)
 {
 	ets_delay_us(SETUP_DELAY_USECS);
@@ -271,7 +278,7 @@ void HT162x_Command(uint8_t cmd)
 	gpio_set_level(CS, 1);
 }
 
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// To write data to memory space of LCD driver.
 void HT162x_WriteData(uint8_t addr, uint16_t sdata, uint8_t bits)
 {
 	// Note: bits needs to be a multiple of 4 as data is in nibbles AND its default value is 4
@@ -288,7 +295,7 @@ void HT162x_WriteData(uint8_t addr, uint16_t sdata, uint8_t bits)
 	gpio_set_level(CS, 1);
 }
 
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// To initialize our custom LCD and HT1622. You can change it according to your needs.
 void HT162x_Initialize(void){
 	// Set up I/O and display
 	gpio_pad_select_gpio(OE);
@@ -338,10 +345,7 @@ void HT162x_Initialize(void){
 	}
 }
 
-// TODO TEST ALL SEGMENTS AND COMS AND REGENERATE THE DOCUMENT FOR UNASSIGNED PARTS IN THE LCD DOCUMENTATION
-// void segment_test
-
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// To set or clear all elements at the same time.
 void AllElements(uint8_t state)
 {
 	for (uint8_t addr = 0; addr < HT1622_ADDRESS_SIZE; addr++)
@@ -353,6 +357,7 @@ void AllElements(uint8_t state)
 	}
 }
 
+// To restart and reconsider all segments that are for unit labels, according to their states.
 void HT162x_RestartUnitLabels(void){
 	switch(HT1622_Config_s->Mode){
 		case CLUB_AND_BALL_SPEED:
@@ -410,6 +415,7 @@ void HT162x_RestartUnitLabels(void){
 	}
 }
 
+// To restart and reconsider all segments that are for labels, according to their states.
 void HT162x_RestartStaticLabels(void){
 	switch(HT1622_Config_s->Mode){
 		case CLUB_AND_BALL_SPEED:
@@ -451,6 +457,7 @@ void HT162x_RestartStaticLabels(void){
 	}
 }
 
+// To restart and reconsider all segments that are for battery icon, according to their states.
 void HT162x_RestartBatteryIcon(){
 	switch(HT1622_Values_s->BatteryPercentage){
 		case PERCENT_100_85:
@@ -498,6 +505,7 @@ void HT162x_RestartBatteryIcon(){
 	}
 }
 
+// System open-up LCD test function. You can change it according to your needs.
 void HT162x_OpenUp_Test(void){
 	AllElements(1);
 	gpio_set_level(BUZZER_PIN, 1);
@@ -528,11 +536,13 @@ void HT162x_OpenUp_Test(void){
 	HT162x_Carry_Set(0);
 }
 
+// Task creation function.
 void HT162x_ActivateTask(void)
 {
 	xTaskCreatePinnedToCore(&display_task, "display_task", 4096, NULL, DISPLAY_TASK_PRIORITY, &displayTaskHandle, FIRST_CPU);
 }
 
+// LCD task
 void display_task(void *arg)
 {
 	while(1)
