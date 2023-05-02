@@ -99,7 +99,6 @@
 #define WRITE_DELAY_USECS 2  // Tclk min. on data sheet - overhead is more than this at low clock speeds
 #define RESET_DELAY_USECS 1000  // Not strictly necessary
 
-void init_display(void);
 void HT162x_SendBits(uint16_t data, uint8_t bits, bool LSB_FIRST);
 void HT162x_Initialize(void);
 void HT162x_ActivateTask(void);
